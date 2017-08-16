@@ -1,4 +1,6 @@
-import {createStore} from 'redux';
+import {createStore,applyMiddleware} from 'redux';
 import reducer from './reducers/todo';
-
-export default createStore(reducer);
+import thunk from 'redux-thunk';
+export default createStore(
+    reducer,
+    applyMiddleware(thunk)); //use this to dispatch asynchronous actions
