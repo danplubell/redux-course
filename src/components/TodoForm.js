@@ -1,27 +1,33 @@
-import React from 'react';
+import React,{Component} from 'react';
 import {connect} from 'react-redux';
-import {updateCurrent} from '../reducers/todo';
+import {updateCurrent,saveTodo} from '../reducers/todo';
 
-const TodoForm =  (props) => {
-    /*destructure props*/
-    const {currentTodo,updateCurrent} = props;
-    const handleInputChange = (event) => {
+
+
+class TodoForm extends Component {
+    handleInputChange = (event) => {
         const val = event.target.value;
-        updateCurrent(val);
+        this.props.updateCurrent(val); //from props sent in by mapDispatchToProps
     }
-    return (
-            <form>
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.props.saveTodo(this.props.currentTodo)
+    }
+    render(){
+        const {currentTodo} = this.props
+        return (
+            <form onSubmit={this.handleSubmit}>
                 <input type="text"
                        value={currentTodo}
-                        onChange={handleInputChange}
+                       onChange={this.handleInputChange}
                 />
             </form>
 
-    )
-
+        )
+    }
 }
 
 export default connect(
-    (state) => ({currentToDo: state.currentTodo}), //mapStateToProps
-    {updateCurrent} //mapDispatchToProps
+    (state) => ({currentTodo: state.todo.currentTodo}), //mapStateToProps, the todo namspace was added in the combine reducer
+    {updateCurrent, saveTodo} //mapDispatchToProps, these are the dispatched actions, makes these actions available on props in component
 )(TodoForm)

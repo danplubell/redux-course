@@ -24,6 +24,6 @@ class  TodoList extends Component {
 }
 
 export default connect(
-    (state) => ({todos: state.todos}), //mapStateToProps
+    (state) => ({todos: state.todo.todos}), //mapStateToProps todo namespace added in combine reducer
     {fetchTodos} //mapDispatchToProps
 )(TodoList)
