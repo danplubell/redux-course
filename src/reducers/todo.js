@@ -1,4 +1,4 @@
-import {getTodos,createTodo} from '../lib/todoServices';
+import {getTodos,createTodo, updateTodo} from '../lib/todoServices';
 import {showMessage} from "./messages";
 
 const initState = { //empty initial state, but has the defined shape
@@ -8,12 +8,15 @@ const initState = { //empty initial state, but has the defined shape
 
 const CURRENT_UPDATE = 'CURRENT_UPDATE';
 export const TODO_ADD = 'TODO_ADD';
-export const  TODOS_LOAD = 'TODOS_LOAD';
+export const TODOS_LOAD = 'TODOS_LOAD';
+export const TODO_REPLACE = 'TODO_REPLACE';
 
 //Action Creators
 export const updateCurrent = (val) => ({type: CURRENT_UPDATE, payload: val})
 export const loadTodos = (todos)=> ({type: TODOS_LOAD, payload: todos})
 export const addTodo = (todo) => ({type: TODO_ADD, payload: todo})
+export const replaceTodo = (todo) => ({type: TODO_REPLACE, payload: todo})
+//////Async action creators
 export const fetchTodos = () => { //action creator that returns a function
     return (dispatch) => { //thunk gives a reference to dispatch from redux
         dispatch(showMessage('Loading Todos'));
@@ -22,14 +25,29 @@ export const fetchTodos = () => { //action creator that returns a function
     }
 }
 
+//action creator for saving a todo
+//invoked from the onsubmit of the todo form
 export const saveTodo = (name) =>{
     return (dispatch) => {
         dispatch(showMessage('Saving Todo'))
-        createTodo(name)
-            .then(res => dispatch(addTodo(res)))
+        createTodo(name) //contains the service call for creating the todo item in database, asynchrous
+            .then(res => dispatch(addTodo(res))) //dispatches the addToDo action to the reducers after the server call is done
     }
 }
 
+//find the todo to update in the state
+
+export const toggleTodo = (id) => {
+    return (dispatch,getState) => {
+        dispatch(showMessage('Updating todo'))
+        const {todos} = getState().todo; //deconstruct state to get todos out of the state object, multiple reducers namespace
+        const todo = todos.find(t => t.id === id);
+        const toggled = {...todo, isComplete: !todo.isComplete}
+        updateTodo(toggled)
+            .then(res => dispatch(replaceTodo(res)))
+    }
+}
+//the todo reducer action handlers, results are sent back to the components via mapStateToProps
 export default (state = initState, action) => {
     switch(action.type){
         case TODO_ADD:
@@ -39,6 +57,8 @@ export default (state = initState, action) => {
             return {...state, currentTodo: action.payload}
         case TODOS_LOAD:
             return {...state, todos: action.payload}
+        case TODO_REPLACE: //go through the todo array in the state, if the id matches then return the modified todo
+            return {...state, todos: state.todos.map(t => t.id === action.payload.id ? action.payload: t)}
         default:
             return state
     }
