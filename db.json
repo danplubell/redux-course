@@ -2,8 +2,28 @@
   "todos": [
     {
       "name": "new todo",
-      "isComplete": false,
+      "isComplete": true,
       "id": 1
+    },
+    {
+      "name": "new todo",
+      "isComplete": false,
+      "id": 2
+    },
+    {
+      "name": "all todos",
+      "isComplete": false,
+      "id": 3
+    },
+    {
+      "name": "another active todo",
+      "isComplete": false,
+      "id": 4
+    },
+    {
+      "name": "yet another todo",
+      "isComplete": false,
+      "id": 5
     }
   ]
 }

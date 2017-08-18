@@ -57,6 +57,17 @@ export const deleteTodo = (id) => {
             .then(() => dispatch(removeTodo(id)))
     }
 }
+
+export const getVisibleTodos = (todos, filter) => {
+    switch(filter){
+        case 'active':
+            return todos.filter(t => !t.isComplete)
+        case 'completed':
+            return todos.filter(t => t.isComplete)
+        default:
+            return todos
+    }
+}
 //the todo reducer action handlers, results are sent back to the components via mapStateToProps
 export default (state = initState, action) => {
     switch(action.type){

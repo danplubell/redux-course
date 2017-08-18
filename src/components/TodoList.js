@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchTodos,toggleTodo, deleteTodo} from '../reducers/todo';
+import {fetchTodos,toggleTodo, deleteTodo,getVisibleTodos} from '../reducers/todo';
 
 const TodoItem = ({id, name, isComplete, toggleTodo, deleteTodo})=> (
 
@@ -33,6 +33,8 @@ class  TodoList extends Component {
 }
 
 export default connect(
-    (state) => ({todos: state.todo.todos}), //mapStateToProps todo namespace added in combine reducer
+    //ownProps == props that are attached directly to component
+    //the filter came from the router setup in App.js
+    (state,ownProps) => ({todos: getVisibleTodos(state.todo.todos,ownProps.filter)}), //mapStateToProps todo namespace added in combine reducer
     {fetchTodos,toggleTodo, deleteTodo} //mapDispatchToProps
 )(TodoList)
