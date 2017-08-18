@@ -24,3 +24,14 @@ export const updateTodo = (todo) => {
         body: JSON.stringify(todo) //the entire todo this time
     }).then(res => res.json()) //return the response that includes the newly created object so we can update state
 }
+
+export const destroyTodo = (id) => {
+
+    return fetch(`http://localhost:8080/todos/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+}

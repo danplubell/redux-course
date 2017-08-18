@@ -1,4 +1,4 @@
-import {getTodos,createTodo, updateTodo} from '../lib/todoServices';
+import {getTodos,createTodo, updateTodo,destroyTodo} from '../lib/todoServices';
 import {showMessage} from "./messages";
 
 const initState = { //empty initial state, but has the defined shape
@@ -10,12 +10,14 @@ const CURRENT_UPDATE = 'CURRENT_UPDATE';
 export const TODO_ADD = 'TODO_ADD';
 export const TODOS_LOAD = 'TODOS_LOAD';
 export const TODO_REPLACE = 'TODO_REPLACE';
+export const TODO_DESTROY = 'TODO_DESTROY';
 
 //Action Creators
 export const updateCurrent = (val) => ({type: CURRENT_UPDATE, payload: val})
 export const loadTodos = (todos)=> ({type: TODOS_LOAD, payload: todos})
 export const addTodo = (todo) => ({type: TODO_ADD, payload: todo})
 export const replaceTodo = (todo) => ({type: TODO_REPLACE, payload: todo})
+export const removeTodo = (id) => ({type: TODO_DESTROY, payload: id})
 //////Async action creators
 export const fetchTodos = () => { //action creator that returns a function
     return (dispatch) => { //thunk gives a reference to dispatch from redux
@@ -47,6 +49,14 @@ export const toggleTodo = (id) => {
             .then(res => dispatch(replaceTodo(res)))
     }
 }
+
+export const deleteTodo = (id) => {
+    return (dispatch) => {
+        dispatch(showMessage('Deleting tod'))
+        destroyTodo(id)
+            .then(() => dispatch(removeTodo(id)))
+    }
+}
 //the todo reducer action handlers, results are sent back to the components via mapStateToProps
 export default (state = initState, action) => {
     switch(action.type){
@@ -59,6 +69,8 @@ export default (state = initState, action) => {
             return {...state, todos: action.payload}
         case TODO_REPLACE: //go through the todo array in the state, if the id matches then return the modified todo
             return {...state, todos: state.todos.map(t => t.id === action.payload.id ? action.payload: t)}
+        case TODO_DESTROY:
+            return {...state, todos: state.todos.filter(t => t.id !== action.payload)}
         default:
             return state
     }

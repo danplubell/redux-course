@@ -1,96 +1,9 @@
 {
   "todos": [
     {
-      "id": 1,
-      "name": "configure server",
-      "isComplete": true
-    },
-    {
-      "id": 2,
-      "name": "start server",
-      "isComplete": false
-    },
-    {
-      "id": 3,
-      "name": "load data",
-      "idComplete": false,
-      "isComplete": false
-    },
-    {
-      "id": 4,
-      "name": "update records",
-      "idComplete": false,
-      "isComplete": false
-    },
-    {
       "name": "new todo",
       "isComplete": false,
-      "id": 5
-    },
-    {
-      "name": "next todo",
-      "isComplete": false,
-      "id": 6
-    },
-    {
-      "name": "yet another",
-      "isComplete": false,
-      "id": 7
-    },
-    {
-      "name": "again",
-      "isComplete": false,
-      "id": 8
-    },
-    {
-      "name": "saving a new todo",
-      "isComplete": false,
-      "id": 9
-    },
-    {
-      "name": "new todo clear message",
-      "isComplete": false,
-      "id": 10
-    },
-    {
-      "name": "new todo",
-      "isComplete": false,
-      "id": 11
-    },
-    {
-      "name": "todo add",
-      "isComplete": false,
-      "id": 12
-    },
-    {
-      "name": "another todo",
-      "isComplete": false,
-      "id": 13
-    },
-    {
-      "name": "add new todo",
-      "isComplete": false,
-      "id": 14
-    },
-    {
-      "name": "another",
-      "isComplete": false,
-      "id": 15
-    },
-    {
-      "name": "todo add fixed",
-      "isComplete": false,
-      "id": 16
-    },
-    {
-      "name": "update",
-      "isComplete": false,
-      "id": 17
-    },
-    {
-      "name": "new todo",
-      "isComplete": true,
-      "id": 18
+      "id": 1
     }
   ]
 }
